@@ -58,20 +58,22 @@ class AddViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func addBtnTapped(_ sender: UIButton) {
-        if !arrays.nameAlreadyExists(itemNameField.text) {
-            arrays.allItems.append(Item(String(itemNameField.text ?? ""), nF.number(from: priceField.text ?? "0")!.floatValue))
-            
-            itemsTableView.reloadData()
-            
-            dismiss(animated: true, completion: nil)
-            
-            try? PropertyListEncoder().encode(arrays.allItems).write(to: arrays.allItemsSaveURL, options: [.atomic])
-        } else {
-            let msgBox = UIAlertController(title: "", message: "An item of the same name already exists", preferredStyle: UIAlertController.Style.alert)
-            
-            msgBox.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-            
-            present(msgBox, animated: true, completion: nil)
+        if itemNameField.text != nil, priceField.text != nil, itemNameField.text != "", priceField.text != "" {
+            if !arrays.nameAlreadyExists(itemNameField.text) {
+                arrays.allItems.append(Item(String(itemNameField.text ?? ""), nF.number(from: priceField.text ?? "0")!.floatValue))
+                
+                itemsTableView.reloadData()
+                
+                dismiss(animated: true, completion: nil)
+                
+                try? PropertyListEncoder().encode(arrays.allItems).write(to: arrays.allItemsSaveURL, options: [.atomic])
+            } else {
+                let msgBox = UIAlertController(title: "", message: "An item of the same name already exists", preferredStyle: UIAlertController.Style.alert)
+                
+                msgBox.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                
+                present(msgBox, animated: true, completion: nil)
+            }
         }
     }
     

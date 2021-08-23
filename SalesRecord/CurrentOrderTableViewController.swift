@@ -49,17 +49,19 @@ class CurrentOrderTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func completeOrderBtn(_ sender: UIButton) {
-        arrays.currentOrder.orderDate = Date()
-        
-        arrays.pastOrders.append(arrays.currentOrder)
-        
-        arrays.currentOrder = Order()
-        
-        tableView.reloadData()
-        navigationItem.title = "Total: \(arrays.formatPrice(arrays.currentOrder.totalPrice))"
-        
-        try? PropertyListEncoder().encode(arrays.pastOrders).write(to: arrays.pastOrdersSaveURL, options: [.atomic])
+    @IBAction func saveBtn(_ sender: UIButton) {
+        if arrays.currentOrder.items.count != 0 {
+            arrays.currentOrder.orderDate = Date()
+            
+            arrays.pastOrders.append(arrays.currentOrder)
+            
+            arrays.currentOrder = Order()
+            
+            tableView.reloadData()
+            navigationItem.title = "Total: \(arrays.formatPrice(arrays.currentOrder.totalPrice))"
+            
+            try? PropertyListEncoder().encode(arrays.pastOrders).write(to: arrays.pastOrdersSaveURL, options: [.atomic])
+        }
     }
     
 }
